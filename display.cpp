@@ -108,7 +108,6 @@ display_t::~display_t()
 	ioctl(drm_fd, DRM_IOCTL_MODE_DESTROY_DUMB, &destroy_dumb);
 	drmModeFreeCrtc(orig_crtc);	
 	close(drm_fd);
-	return 0;
 }
 
 
