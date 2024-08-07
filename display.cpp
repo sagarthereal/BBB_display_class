@@ -1,5 +1,12 @@
 #include"display.h"
 
+#define CHECK_ERROR(cond, msg) do {\
+	if (cond) { \
+		perror(msg); \
+		exit(EXIT_FAILURE); \
+	} \
+} while (0)
+
 int display_t::drm_fd = -1;
 drmModeCrtc* display_t::crtc = NULL;
 uint32_t display_t::buffer1_id = -1;
