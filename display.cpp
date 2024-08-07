@@ -51,7 +51,7 @@ display_t::display_t(string filename)
 	ioctl(drm_fd, DRM_IOCTL_MODE_CREATE_DUMB, &create_dumb);
 	map_dumb.handle = create_dumb.handle;
 	ioctl(drm_fd, DRM_IOCTL_MODE_MAP_DUMB, &map_dumb);
-	db_ptr = mmap(0, create_dumb.size, PROT_READ | PROT_WRITE, MAP_SHARED, drm_fd, map_dumb.offset);
+	db_ptr = static_cast<uint16_t*>(mmap(0, create_dumb.size, PROT_READ | PROT_WRITE, MAP_SHARED, drm_fd, map_dumb.offset));
 	CHECK_ERROR(db_ptr == MAP_FAILED, "Failed to mmap framebuffer");
 	
     	handle[0] = create_dumb.handle;
@@ -81,7 +81,7 @@ display_t::display_t(string filename)
 	setitimer(ITIMER_REAL, &timer, NULL);
 }
 
-void display_t::timer_on(void (*handle_timer)(int));
+void display_t::timer_on(void (*handle_timer)(int))
 {
 	signal(SIGALRM, handle_timer);
 }
@@ -95,7 +95,7 @@ display_t::~display_t()
 	drmModeFreeEncoder(encoder);
 	drmModeFreeConnector(connector);
 	drmModeFreeResources(resources);
-	munmap(db_ptr, create_dumb_double.size);
+	munmap(db_ptr, create_dumb.size);
 	struct drm_mode_destroy_dumb destroy_dumb = {0};
 	destroy_dumb.handle = create_dumb.handle;
 	ioctl(drm_fd, DRM_IOCTL_MODE_DESTROY_DUMB, &destroy_dumb);
