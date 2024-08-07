@@ -54,14 +54,15 @@ display_t::display_t(string filename)
 	db_ptr = mmap(0, create_dumb.size, PROT_READ | PROT_WRITE, MAP_SHARED, drm_fd, map_dumb.offset);
 	CHECK_ERROR(db_ptr == MAP_FAILED, "Failed to mmap framebuffer");
 	
-    handle[0] = create_dumb.handle;
-    pitch[0]  = create_dumb.pitch;
+    	handle[0] = create_dumb.handle;
+    	pitch[0]  = create_dumb.pitch;
 	offsets[0] = 0;
 	offsets1[0] = width*height*bpp/8;
 	
 	
 	drmModeAddFB2(drm_fd, width, height, DRM_FORMAT_RGB565, handle, pitch, offsets, &buffer1_id, 0);
 	drmModeAddFB2(drm_fd, width, height, DRM_FORMAT_RGB565, handle, pitch, offsets1, &buffer2_id, 0);
+	drmModeSetCrtc(drm_fd, crtc->crtc_id, buffer1_id, 0, 0, &connector->connector_id, 1, &mode);
 	current_buffer_id_in_use = buffer1_id;
 	
 	cairo_surface1 = cairo_image_surface_create_for_data(db_ptr, CAIRO_FORMAT_RGB16, width, height, width*bpp/8);
