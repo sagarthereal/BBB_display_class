@@ -22,6 +22,6 @@ int main()
 {
 	string display_driver_name = "/dev/dri/card0";
 	display_t display(display_driver_name);
-	timer_on(display_t::handle_timer);
+	display.timer_on(display_t::handle_timer);
 	while(1);
 }
