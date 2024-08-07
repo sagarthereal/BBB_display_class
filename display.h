@@ -37,7 +37,7 @@ class display_t
 		static uint32_t current_buffer_id_in_use;
 		uint32_t width;
 		uint32_t height;
-		uint16_t bpp = 16;
+		uint16_t bpp;
 		struct drm_mode_create_dumb create_dumb = {0};
 		static cairo_t *cr1;
 		static cairo_t *cr2;
