@@ -45,7 +45,7 @@ display_t::display_t(string filename)
 	bpp = 16;
 
 	
-	create_dumb.width = width
+	create_dumb.width = width;
 	create_dumb.height = 3*height;
 	create_dumb.bpp = bpp;
 	ioctl(drm_fd, DRM_IOCTL_MODE_CREATE_DUMB, &create_dumb);
