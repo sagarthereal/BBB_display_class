@@ -72,9 +72,9 @@ display_t::display_t(string filename)
 	drmModeSetCrtc(drm_fd, crtc->crtc_id, buffer1_id, 0, 0, &connector->connector_id, 1, &mode);
 	current_buffer_id_in_use = buffer1_id;
 	
-	cairo_surface1 = cairo_image_surface_create_for_data(db_ptr, CAIRO_FORMAT_RGB16_565, width, height, width*bpp/8);
+	cairo_surface1 = cairo_image_surface_create_for_data(static_cast<unsigned char*>(db_ptr), CAIRO_FORMAT_RGB16_565, width, height, width*bpp/8);
 	cr1 = cairo_create(cairo_surface1);
-	cairo_surface2 = cairo_image_surface_create_for_data(&(db_ptr[height*width]), CAIRO_FORMAT_RGB16_565, width, height, width*bpp/8);
+	cairo_surface2 = cairo_image_surface_create_for_data(static_cast<unsigned char*>(&(db_ptr[height*width])), CAIRO_FORMAT_RGB16_565, width, height, width*bpp/8);
 	cr2 = cairo_create(cairo_surface2);
 	
 	
